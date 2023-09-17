@@ -2,7 +2,7 @@ import os
 import time
 import json
 
-from .azure_openai import setup_openai, generate_linkedin_post
+from .azure_openai import setup_openai, generate_linkedin_post, compare_posts
 from .auto_linkedin import main as post_to_linkedin
 from .load_generated_facts import load_generated_facts
 
@@ -16,15 +16,18 @@ def save_generated_facts(facts):
 
 def main():
     
-    # Set up OpenAI
-    setup_openai()
     generated_facts = load_generated_facts()
 
     # Generate a LinkedIn post fact
     start_phrase, generated_post = generate_linkedin_post()
 
     # Check if the fact is not already generated
-    if generated_post not in generated_facts:
+    are_same = False
+    for posts in generated_facts:
+        if compare_posts(posts, generated_post) == 'True':
+            are_same = True
+
+    if not are_same:
         # Post the fact to LinkedIn
         post_to_linkedin(generated_post)
 

@@ -3,7 +3,8 @@ import logging
 
 import azure.functions as func
 
-from .Main import main
+from .Main import main_post
+from .azure_openai import setup_openai
 
 # Path to the JSON file for storing generated facts
 FACTS_FILE = 'generated_facts.json'
@@ -15,6 +16,8 @@ def main(mytimer: func.TimerRequest) -> None:
     if mytimer.past_due:
         logging.info('The timer is past due!')
 
-    main()
+    setup_openai()
+
+    main_post()
 
     logging.info('Python timer trigger function ran at %s', utc_timestamp)
