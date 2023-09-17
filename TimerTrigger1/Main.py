@@ -1,24 +1,24 @@
 import os
 import time
 import json
-from azure_openai import setup_openai, generate_linkedin_post
-from auto_linkedin import main as post_to_linkedin
+
+from .azure_openai import setup_openai, generate_linkedin_post
+from .auto_linkedin import main as post_to_linkedin
+from .load_generated_facts import load_generated_facts
 
 # Path to the JSON file for storing generated facts
 FACTS_FILE = 'generated_facts.json'
-
-def load_generated_facts():
-    try:
-        with open(FACTS_FILE, 'r') as f:
-            return json.load(f)
-    except FileNotFoundError:
-        return []
 
 def save_generated_facts(facts):
     with open(FACTS_FILE, 'w') as f:
         json.dump(facts, f, indent=4)
 
+
 def main():
+    
+    # Set up OpenAI
+    setup_openai()
+    generated_facts = load_generated_facts()
 
     # Generate a LinkedIn post fact
     start_phrase, generated_post = generate_linkedin_post()

@@ -37,10 +37,42 @@ def generate_linkedin_post(text=False):
 
     # Extract and return the generated post content
     text = response['choices'][0]['message']['content']
-    return start_phrase, text
+    return start_phrase, text, response
+    
+# Create a function to compare two posts
+def compare_posts(text1, text2):
+    deployment_name = 'linked'  # Update with your deployment name
+
+    # Define the starting phrase for the post
+    if not text1 or not text2:
+        raise Exception('The 2 required arguments are missing, text1 and text2.')
+    else:
+        start_phrase = f"""
+        Compare the following two posts, if both share same information then give me answer just as 'False' otherwise give me an answer just as 'True'.
+        
+        post1: {text1}
+        
+        post2:{text2}
+        
+        your answer as True or False:
+    """
+
+    # Send a completion call to generate an answer
+    response = openai.ChatCompletion.create(
+        engine=deployment_name,
+        messages=[{
+            'role': 'system',
+            'content': start_phrase
+        }],
+        max_tokens=400,
+        temperature=0.7
+    )
+
+    # Extract and return the generated post content
+    text = response['choices'][0]['message']['content']
+    return text
 
 if __name__ == "__main__":
     setup_openai()
     start_phrase, generated_post = generate_linkedin_post()
     print(start_phrase, ":\n", generated_post)
-
