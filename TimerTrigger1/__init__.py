@@ -3,7 +3,7 @@ import logging
 
 import azure.functions as func
 
-from .Main import main_post
+from .Main import main as main_post
 from .azure_openai import setup_openai
 
 # Path to the JSON file for storing generated facts
