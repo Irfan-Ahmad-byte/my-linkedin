@@ -3,11 +3,9 @@ import logging
 
 import azure.functions as func
 
-from .Main import main as main_post
-from .azure_openai import setup_openai
+from TimerTrigger2.sub_modules.Main import main as main_post
+from TimerTrigger2.sub_modules.azure_openai import setup_openai
 
-# Path to the JSON file for storing generated facts
-FACTS_FILE = 'generated_facts.json'
 
 def main(mytimer: func.TimerRequest) -> None:
     utc_timestamp = datetime.datetime.utcnow().replace(

@@ -2,12 +2,12 @@ import os
 import time
 import json
 
-from .azure_openai import setup_openai, generate_linkedin_post, compare_posts
-from .auto_linkedin import main as post_to_linkedin
-from .load_generated_facts import load_generated_facts
+from TimerTrigger2.sub_modules.azure_openai import setup_openai, generate_linkedin_post, compare_posts
+from TimerTrigger2.sub_modules.auto_linkedin import main as post_to_linkedin
+from TimerTrigger2.sub_modules.load_generated_facts import load_generated_facts
 
 # Path to the JSON file for storing generated facts
-FACTS_FILE = 'generated_facts.json'
+FACTS_FILE = 'TimerTrigger2/generated_facts.json'
 
 def save_generated_facts(facts):
     with open(FACTS_FILE, 'w') as f:
@@ -16,7 +16,7 @@ def save_generated_facts(facts):
 
 def main():
     
-    generated_facts = load_generated_facts()
+    generated_facts = load_generated_facts(FACTS_FILE)
 
     # Generate a LinkedIn post fact
     start_phrase, generated_post = generate_linkedin_post()

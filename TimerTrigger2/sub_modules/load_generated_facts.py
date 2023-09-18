@@ -1,12 +1,10 @@
-from Main import FACTS_FILE
-
 
 import json
 
 
-def load_generated_facts():
+def load_generated_facts(file_path):
     try:
-        with open(FACTS_FILE, 'r') as f:
+        with open(file_path, 'r') as f:
             return json.load(f)
     except FileNotFoundError:
         return []
